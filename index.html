@@ -20,9 +20,10 @@
       --white: #ffffff;
     }
 
+    /* Use flex to naturally push footer down */
     body {
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
       font-family: 'Inter', sans-serif;
       color: var(--primary);
       display: flex;
@@ -34,7 +35,8 @@
       background-size: 200% 200%;
       animation: gradientShift 10s ease infinite;
       overflow-x: hidden;
-      padding: 20px;
+      padding: clamp(16px, 3vw, 40px);
+      box-sizing: border-box;
     }
 
     @keyframes gradientShift {
@@ -43,11 +45,21 @@
       100% { background-position: 0% 50%; }
     }
 
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
     .overlay {
-      padding: 50px 60px;
+      padding: clamp(24px, 4vw, 60px);
       max-width: 700px;
       width: 100%;
       animation: fadeIn 1s ease-in-out;
+      box-sizing: border-box;
     }
 
     @keyframes fadeIn {
@@ -69,10 +81,11 @@
 
     h1 {
       font-family: 'Poppins', sans-serif;
-      font-size: 38px;
+      font-size: clamp(24px, 4vw, 38px);
       font-weight: 700;
       margin-bottom: 20px;
       color: var(--primary);
+      line-height: 1.3;
     }
 
     h1 i {
@@ -81,14 +94,14 @@
     }
 
     #lottie-container {
-      width: 260px;
-      height: 260px;
+      width: clamp(150px, 25vw, 260px);
+      height: clamp(150px, 25vw, 260px);
       margin: 20px auto 30px;
     }
 
     p {
       color: var(--secondary);
-      font-size: 17px;
+      font-size: clamp(15px, 2vw, 17px);
       line-height: 1.6;
       margin-bottom: 40px;
     }
@@ -107,7 +120,7 @@
       border: none;
       padding: 12px 28px;
       border-radius: 30px;
-      font-size: 16px;
+      font-size: clamp(14px, 2vw, 16px);
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -146,71 +159,27 @@
     }
 
     footer {
-      position: absolute;
-      bottom: 1px;
+      text-align: center;
       font-size: 14px;
       color: var(--secondary);
       opacity: 0.8;
-      text-align: center;
-      width: 100%;
+      margin-top: 20px;
+      padding-bottom: 10px;
     }
 
-    /* ========== Responsive Styles ========== */
-
-    /* Tablets (<= 992px) */
-    @media (max-width: 992px) {
-      .overlay {
-        padding: 40px 40px;
-      }
-
-      h1 {
-        font-size: 32px;
-      }
-
-      #lottie-container {
-        width: 220px;
-        height: 220px;
-      }
-
-      p {
-        font-size: 16px;
-      }
-
-      button {
-        font-size: 15px;
-        padding: 10px 24px;
-      }
-    }
-
-    /* Mobile devices (<= 600px) */
+    /* ========== Responsive Adjustments ========== */
     @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-
       .overlay {
-        padding: 30px 20px;
+        padding: 20px;
       }
 
       h1 {
-        font-size: 26px;
         margin-bottom: 15px;
       }
 
       .error-code {
         font-size: 12px;
         padding: 6px 14px;
-      }
-
-      #lottie-container {
-        width: 180px;
-        height: 180px;
-        margin: 15px auto 25px;
-      }
-
-      p {
-        font-size: 15px;
-        margin-bottom: 30px;
       }
 
       .action-container {
@@ -221,67 +190,43 @@
       button {
         width: 100%;
         justify-content: center;
-        font-size: 15px;
-        padding: 10px 20px;
       }
 
       footer {
         font-size: 12px;
-        bottom: 10px;
-        position: relative;
-        margin-top: 30px;
-      }
-    }
-
-    /* Small phones (<= 400px) */
-    @media (max-width: 400px) {
-      h1 {
-        font-size: 22px;
-      }
-
-      p {
-        font-size: 14px;
-      }
-
-      #lottie-container {
-        width: 150px;
-        height: 150px;
-      }
-
-      button {
-        font-size: 14px;
-        padding: 9px 18px;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="overlay">
-    <div class="error-code">Checking server status...</div>
+  <main>
+    <div class="overlay">
+      <div class="error-code">Checking server status...</div>
 
-    <h1>System Maintenance In Progress <i class="fa-solid fa-screwdriver-wrench"></i></h1>
+      <h1>System Maintenance In Progress <i class="fa-solid fa-screwdriver-wrench"></i></h1>
 
-    <div id="lottie-container"></div>
+      <div id="lottie-container"></div>
 
-    <p>
-      Our systems are currently undergoing scheduled maintenance or experiencing temporary downtime.<br>
-      We’re working hard to get things back online as soon as possible.
-    </p>
+      <p>
+        Our systems are currently undergoing scheduled maintenance or experiencing temporary downtime.<br>
+        We’re working hard to get things back online as soon as possible.
+      </p>
 
-    <div class="action-container">
-      <button onclick="window.chrome?.webview?.postMessage('retry')">
-        <i class="fa-solid fa-rotate-right"></i> Retry
-      </button>
-      <button class="secondary-btn" onclick="window.location.reload()">
-        <i class="fa-solid fa-arrows-rotate"></i> Refresh
-      </button>
+      <div class="action-container">
+        <button onclick="window.chrome?.webview?.postMessage('retry')">
+          <i class="fa-solid fa-rotate-right"></i> Retry
+        </button>
+        <button class="secondary-btn" onclick="window.location.reload()">
+          <i class="fa-solid fa-arrows-rotate"></i> Refresh
+        </button>
+      </div>
+
+      <div class="status-indicator" id="server-status">
+        <i class="fa-solid fa-circle-notch fa-spin"></i> Checking server health...
+      </div>
     </div>
-
-    <div class="status-indicator" id="server-status">
-      <i class="fa-solid fa-circle-notch fa-spin"></i> Checking server health...
-    </div>
-  </div>
+  </main>
 
   <footer>© 2025 Tarcin. All rights reserved.</footer>
 
